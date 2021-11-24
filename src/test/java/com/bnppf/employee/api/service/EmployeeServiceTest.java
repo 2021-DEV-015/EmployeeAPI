@@ -34,26 +34,9 @@ public class EmployeeServiceTest {
 	@Test
 	public void shouldReturnCreatedEmployeeWhenCreateServiceIsCalled()
 			throws Exception {
-		EmployeeDTO employeeToBeCreated = new EmployeeDTO();
-		employeeToBeCreated.setId(ID);
-		employeeToBeCreated.setName(EMPLOYEE_NAME);
-		employeeToBeCreated.setDateOfBirth(new Date());
-		employeeToBeCreated.setAddress(ADDRESS);
-		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
-		DepartmentDTO department = new DepartmentDTO(ID, DEPARTMENT_NAME);
-		departments.add(department);
-		employeeToBeCreated.setDepartments(departments);
+		EmployeeDTO employeeToBeCreated = getEmployeeDTO();
 
-		Employee mockEmployee = new Employee();
-		mockEmployee.setId(ID);
-		mockEmployee.setName(EMPLOYEE_NAME);
-		mockEmployee.setAddress(ADDRESS);
-		mockEmployee.setDateOfBirth(new java.sql.Date(System
-				.currentTimeMillis()));
-
-		List<Department> mockDepartments = new ArrayList<Department>();
-		mockDepartments.add(new Department(ID, DEPARTMENT_NAME));
-		mockEmployee.setDepartments(mockDepartments);
+		Employee mockEmployee = getEmployee();
 		Mockito.when(repository.save(Mockito.any(Employee.class))).thenReturn(
 				mockEmployee);
 
@@ -75,22 +58,10 @@ public class EmployeeServiceTest {
 	public void shouldReturnCreatedEmployeeWhenEmployeeDateOfBirthIsNull()
 			throws Exception {
 		EmployeeDTO employeeToBeCreated = new EmployeeDTO();
-		employeeToBeCreated.setId(ID);
-		employeeToBeCreated.setName(EMPLOYEE_NAME);
-		employeeToBeCreated.setAddress(ADDRESS);
-		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
-		DepartmentDTO department = new DepartmentDTO(ID, DEPARTMENT_NAME);
-		departments.add(department);
-		employeeToBeCreated.setDepartments(departments);
+		employeeToBeCreated.setDateOfBirth(null);
 
-		Employee mockEmployee = new Employee();
-		mockEmployee.setId(ID);
-		mockEmployee.setName(EMPLOYEE_NAME);
-		mockEmployee.setAddress(ADDRESS);
-
-		List<Department> mockDepartments = new ArrayList<Department>();
-		mockDepartments.add(new Department(ID, DEPARTMENT_NAME));
-		mockEmployee.setDepartments(mockDepartments);
+		Employee mockEmployee = getEmployee();
+		mockEmployee.setDateOfBirth(null);
 		Mockito.when(repository.save(Mockito.any(Employee.class))).thenReturn(
 				mockEmployee);
 
@@ -98,4 +69,32 @@ public class EmployeeServiceTest {
 
 		Assertions.assertNull(employee.getDateOfBirth());
 	}
+
+	private Employee getEmployee() {
+		Employee mockEmployee = new Employee();
+		mockEmployee.setId(ID);
+		mockEmployee.setName(EMPLOYEE_NAME);
+		mockEmployee.setAddress(ADDRESS);
+		mockEmployee.setDateOfBirth(new java.sql.Date(System
+				.currentTimeMillis()));
+
+		List<Department> mockDepartments = new ArrayList<Department>();
+		mockDepartments.add(new Department(ID, DEPARTMENT_NAME));
+		mockEmployee.setDepartments(mockDepartments);
+		return mockEmployee;
+	}
+
+	private EmployeeDTO getEmployeeDTO() {
+		EmployeeDTO employeeToBeCreated = new EmployeeDTO();
+		employeeToBeCreated.setId(ID);
+		employeeToBeCreated.setName(EMPLOYEE_NAME);
+		employeeToBeCreated.setDateOfBirth(new Date());
+		employeeToBeCreated.setAddress(ADDRESS);
+		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
+		DepartmentDTO department = new DepartmentDTO(ID, DEPARTMENT_NAME);
+		departments.add(department);
+		employeeToBeCreated.setDepartments(departments);
+		return employeeToBeCreated;
+	}
+
 }
