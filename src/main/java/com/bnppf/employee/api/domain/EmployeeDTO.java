@@ -20,8 +20,7 @@ public class EmployeeDTO {
 	private String address;
 
 	@Valid
-	@NotNull(message = "departments cannot be null")
-	@NotEmpty(message = "departments cannot be empty")
+	@NotEmpty(message = "departments cannot be null or empty")
 	private List<DepartmentDTO> departments;
 
 }

@@ -117,7 +117,7 @@ public class EmployeeControllerTest extends BaseTest {
 
 		Assertions.assertEquals(400, result.getResponse().getStatus());
 		JSONAssert.assertEquals(
-				"{\"code\":400,\"message\":\"departments cannot be null.departments cannot be empty.\"}",
+				"{\"code\":400,\"message\":\"departments cannot be null or empty.\"}",
 				result.getResponse().getContentAsString(), false);
 	}
 	
@@ -134,7 +134,7 @@ public class EmployeeControllerTest extends BaseTest {
 
 		Assertions.assertEquals(400, result.getResponse().getStatus());
 		JSONAssert.assertEquals(
-				"{\"code\":400,\"message\":\"departments cannot be empty.\"}",
+				"{\"code\":400,\"message\":\"departments cannot be null or empty.\"}",
 				result.getResponse().getContentAsString(), false);
 	}
 
