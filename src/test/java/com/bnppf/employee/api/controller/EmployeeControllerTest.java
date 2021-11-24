@@ -168,5 +168,20 @@ public class EmployeeControllerTest extends BaseTest {
 				"{\"code\":400,\"message\":\"department name is mandatory.\"}",
 				result.getResponse().getContentAsString(), false);
 	}
+	
+	@Test
+	public void shouldReturnEmployeeDataBasedOnEmployeeId() throws Exception {
+		Mockito.when(service.fetchByEmployeeId(Mockito.anyInt())).thenReturn(
+				getEmployeeDTO());
+		String employeeResponseJson = "{\"id\":1,\"name\":\"Employee1\",\"address\":\"22 Fairylane Circle, Dearborn, Michigan\",\"dateOfBirth\":\"1990-07-07\",\"departments\":[{\"id\":1,\"name\":\"department1\"}]}";
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+				"/api/employee/1").accept(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+		Assertions.assertEquals(200, result.getResponse().getStatus());
+		JSONAssert.assertEquals(employeeResponseJson, result.getResponse()
+				.getContentAsString(), false);
+	}
 
 }

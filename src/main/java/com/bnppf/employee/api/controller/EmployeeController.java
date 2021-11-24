@@ -4,6 +4,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,11 @@ public class EmployeeController {
 	@PostMapping(value = "/employee", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public EmployeeDTO createEmployee(@Valid @RequestBody EmployeeDTO employee) throws InvalidDateFormatException {
 		return service.create(employee);
+	}
+	
+	@GetMapping(value = "/employee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public EmployeeDTO fetchEmployeeById(@PathVariable Integer id) {
+		return service.fetchByEmployeeId(id);
 	}
 
 }
