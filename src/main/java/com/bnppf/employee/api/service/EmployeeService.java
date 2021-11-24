@@ -48,15 +48,7 @@ public class EmployeeService {
 		employee.setId(employeeDTO.getId());
 		employee.setName(employeeDTO.getName());
 		if (null != employeeDTO.getDateOfBirth()) {
-			try {
-				SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-				dateFormatter.parse(employeeDTO.getDateOfBirth());
-				employee.setDateOfBirth(java.sql.Date.valueOf(employeeDTO
-						.getDateOfBirth()));
-			} catch (ParseException exception) {
-				throw new InvalidDateFormatException("dateOfBirth: date format is invalid. It must be yyyy-MM-dd");
-			}
-			
+			populateDateOfBirth(employeeDTO, employee);
 		}
 		employee.setAddress(employeeDTO.getAddress());
 
@@ -65,6 +57,18 @@ public class EmployeeService {
 				.collect(Collectors.toList());
 		employee.setDepartments(departments);
 		return employee;
+	}
+
+	private void populateDateOfBirth(EmployeeDTO employeeDTO, Employee employee)
+			throws InvalidDateFormatException {
+		try {
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+			dateFormatter.parse(employeeDTO.getDateOfBirth());
+			employee.setDateOfBirth(java.sql.Date.valueOf(employeeDTO
+					.getDateOfBirth()));
+		} catch (ParseException exception) {
+			throw new InvalidDateFormatException("dateOfBirth: date format is invalid. It must be yyyy-MM-dd");
+		}
 	}
 
 }
