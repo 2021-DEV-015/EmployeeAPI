@@ -117,7 +117,24 @@ public class EmployeeControllerTest extends BaseTest {
 
 		Assertions.assertEquals(400, result.getResponse().getStatus());
 		JSONAssert.assertEquals(
-				"{\"code\":400,\"message\":\"departments cannot be null.\"}",
+				"{\"code\":400,\"message\":\"departments cannot be null.departments cannot be empty.\"}",
+				result.getResponse().getContentAsString(), false);
+	}
+	
+	@Test
+	public void shouldReturnBadRequestWhenPassingDepartmentsAsEmptyWhileCreatingEmployeeData()
+			throws Exception {
+		String employeeRequestJson = "{\"id\":1,\"name\":\"Employee1\",\"address\":\"22 Fairylane Circle, Dearborn, Michigan\",\"dateOfBirth\":\"1990-07-07\",\"departments\":[]}";
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+				.post("/api/employee").accept(MediaType.APPLICATION_JSON)
+				.content(employeeRequestJson)
+				.contentType(MediaType.APPLICATION_JSON);
+		MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+		Assertions.assertEquals(400, result.getResponse().getStatus());
+		JSONAssert.assertEquals(
+				"{\"code\":400,\"message\":\"departments cannot be empty.\"}",
 				result.getResponse().getContentAsString(), false);
 	}
 

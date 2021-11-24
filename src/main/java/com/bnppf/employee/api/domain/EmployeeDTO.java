@@ -21,6 +21,7 @@ public class EmployeeDTO {
 
 	@Valid
 	@NotNull(message = "departments cannot be null")
+	@NotEmpty(message = "departments cannot be empty")
 	private List<DepartmentDTO> departments;
 
 }
