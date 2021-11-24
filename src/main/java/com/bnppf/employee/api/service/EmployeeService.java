@@ -37,7 +37,7 @@ public class EmployeeService {
 						.getDateOfBirth().toString() : null);
 
 		List<DepartmentDTO> departmentDTO = createdEmployee.getDepartments()
-				.stream().map(p -> new DepartmentDTO(p.getId(), p.getName()))
+				.stream().map(department -> new DepartmentDTO(department.getId(), department.getName()))
 				.collect(Collectors.toList());
 		transformedEmployee.setDepartments(departmentDTO);
 		return transformedEmployee;
@@ -53,7 +53,7 @@ public class EmployeeService {
 		employee.setAddress(employeeDTO.getAddress());
 
 		List<Department> departments = employeeDTO.getDepartments().stream()
-				.map(p -> new Department(p.getId(), p.getName()))
+				.map(department -> new Department(department.getId(), department.getName()))
 				.collect(Collectors.toList());
 		employee.setDepartments(departments);
 		return employee;
@@ -69,10 +69,6 @@ public class EmployeeService {
 		} catch (ParseException exception) {
 			throw new InvalidDateFormatException("dateOfBirth: date format is invalid. It must be yyyy-MM-dd");
 		}
-	}
-
-	public EmployeeDTO fetchByEmployeeId(Integer employeeId) {
-		return new EmployeeDTO();
 	}
 
 }
