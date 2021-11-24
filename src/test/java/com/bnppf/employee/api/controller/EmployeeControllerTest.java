@@ -15,6 +15,10 @@ public class EmployeeControllerTest {
 		EmployeeController controller = new EmployeeController();
 		EmployeeDTO employee = controller.createEmployee();
 
-		Assertions.assertNotNull(employee);
+		Assertions.assertEquals(1, employee.getId());
+		Assertions.assertEquals("Employee1", employee.getName());
+		Assertions.assertEquals("22 Fairylane Circle, Dearborn, Michigan",
+				employee.getAddress());
+		Assertions.assertNotNull(employee.getDateOfBirth());
 	}
 }
