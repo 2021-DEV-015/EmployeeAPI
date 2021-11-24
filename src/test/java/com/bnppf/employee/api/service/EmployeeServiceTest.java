@@ -1,5 +1,7 @@
 package com.bnppf.employee.api.service;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -80,9 +82,22 @@ public class EmployeeServiceTest extends BaseTest {
 	@Test
 	public void shouldReturnEmployeeWhenPassingEmployeeId()
 			throws Exception {
+		Employee mockEmployee = getEmployee();
+		Mockito.when(repository.findById(1)).thenReturn(
+				Optional.of(mockEmployee));
+		
 		EmployeeDTO employee = service.fetchByEmployeeId(1);
 		
-		Assertions.assertNotNull(employee);
+		Assertions.assertEquals(ID, employee.getId());
+		Assertions.assertEquals(EMPLOYEE_NAME, employee.getName());
+		Assertions.assertEquals(ADDRESS, employee.getAddress());
+		Assertions.assertNotNull(employee.getDateOfBirth());
+		Assertions.assertEquals(employee.getDepartments().size(), employee
+				.getDepartments().size());
+		Assertions.assertEquals(ID, employee.getDepartments().stream()
+				.findFirst().get().getId());
+		Assertions.assertEquals(DEPARTMENT_NAME, employee.getDepartments().stream()
+				.findFirst().get().getName());
 	}
 
 }

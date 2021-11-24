@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "DEPARTMENT")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Department {
 
 	@Id
@@ -28,9 +30,4 @@ public class Department {
 	@ManyToOne
 	@JoinColumn(name = "EMPLOYEE_ID")
 	private Employee employee;
-
-	public Department(Integer id, String name) {
-		this.id = id;
-		this.name = name;
-	}
 }

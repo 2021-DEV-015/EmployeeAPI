@@ -3,6 +3,7 @@ package com.bnppf.employee.api.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class EmployeeService {
 		employee.setAddress(employeeDTO.getAddress());
 
 		List<Department> departments = employeeDTO.getDepartments().stream()
-				.map(department -> new Department(department.getId(), department.getName()))
+				.map(department -> new Department(department.getId(), department.getName(), employee))
 				.collect(Collectors.toList());
 		employee.setDepartments(departments);
 		return employee;
@@ -69,6 +70,15 @@ public class EmployeeService {
 		} catch (ParseException exception) {
 			throw new InvalidDateFormatException("dateOfBirth: date format is invalid. It must be yyyy-MM-dd");
 		}
+	}
+	
+	public EmployeeDTO fetchByEmployeeId(Integer employeeId) {
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		Optional<Employee> optional = repository.findById(employeeId);
+		if (optional.isPresent()) {
+			employeeDTO = transformToDTO(optional.get());
+		}
+		return employeeDTO;
 	}
 
 }
