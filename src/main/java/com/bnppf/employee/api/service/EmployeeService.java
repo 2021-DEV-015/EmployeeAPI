@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.bnppf.employee.api.domain.Department;
 import com.bnppf.employee.api.domain.DepartmentDTO;
 import com.bnppf.employee.api.domain.Employee;
+import com.bnppf.employee.api.domain.EmployeeAlreadyExistsException;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.exception.InvalidDateFormatException;
 import com.bnppf.employee.api.repository.EmployeeRepository;
@@ -22,8 +23,11 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepository repository;
 
-	public EmployeeDTO create(EmployeeDTO employeeDTO) throws InvalidDateFormatException {
+	public EmployeeDTO create(EmployeeDTO employeeDTO) throws InvalidDateFormatException, EmployeeAlreadyExistsException {
 		Employee employee = transformToEmployee(employeeDTO);
+		if (repository.findById(employee.getId()).isPresent()) {
+			throw new EmployeeAlreadyExistsException("Employee record already exists for given employee id");
+		}
 		Employee createdEmployee = repository.save(employee);
 		return transformToDTO(createdEmployee);
 	}

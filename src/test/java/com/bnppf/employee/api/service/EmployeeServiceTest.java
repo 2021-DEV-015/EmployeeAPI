@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bnppf.employee.api.BaseTest;
 import com.bnppf.employee.api.domain.Employee;
+import com.bnppf.employee.api.domain.EmployeeAlreadyExistsException;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.exception.InvalidDateFormatException;
 import com.bnppf.employee.api.repository.EmployeeRepository;
@@ -51,10 +52,12 @@ public class EmployeeServiceTest extends BaseTest {
 	public void shouldReturnCreatedEmployeeWhenEmployeeDateOfBirthIsNull()
 			throws Exception {
 		EmployeeDTO employeeToBeCreated = getEmployeeDTO();
+		employeeToBeCreated.setId(2);
 		employeeToBeCreated.setDateOfBirth(null);
 
 		Employee mockEmployee = getEmployee();
 		mockEmployee.setDateOfBirth(null);
+		Mockito.when(repository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
 		Mockito.when(repository.save(Mockito.any(Employee.class))).thenReturn(
 				mockEmployee);
 
@@ -106,6 +109,22 @@ public class EmployeeServiceTest extends BaseTest {
 		EmployeeDTO employee = service.fetchByEmployeeId(4);
 		
 		Assertions.assertNull(employee.getId());
+	}
+	
+	@Test
+	public void shouldThrowEmployeeAlreadyExistsExceptionWhenCreatingEmployeeWithDuplicateId()
+			throws Exception {
+		EmployeeDTO employeeToBeCreated = getEmployeeDTO();
+		Mockito.when(repository.findById(1)).thenReturn(Optional.of(getEmployee()));
+
+		EmployeeAlreadyExistsException exception = Assertions.assertThrows(
+				EmployeeAlreadyExistsException.class, () -> {
+					service.create(employeeToBeCreated);
+				});
+
+		Assertions.assertEquals(
+				"Employee record already exists for given employee id",
+				exception.getMessage());
 	}
 
 }

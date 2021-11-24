@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bnppf.employee.api.domain.EmployeeAlreadyExistsException;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.exception.InvalidDateFormatException;
 import com.bnppf.employee.api.service.EmployeeService;
@@ -23,10 +24,11 @@ public class EmployeeController {
 	private EmployeeService service;
 
 	@PostMapping(value = "/employee", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public EmployeeDTO createEmployee(@Valid @RequestBody EmployeeDTO employee) throws InvalidDateFormatException {
+	public EmployeeDTO createEmployee(@Valid @RequestBody EmployeeDTO employee)
+			throws InvalidDateFormatException, EmployeeAlreadyExistsException {
 		return service.create(employee);
 	}
-	
+
 	@GetMapping(value = "/employee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public EmployeeDTO fetchEmployeeById(@PathVariable Integer id) {
 		return service.fetchByEmployeeId(id);
