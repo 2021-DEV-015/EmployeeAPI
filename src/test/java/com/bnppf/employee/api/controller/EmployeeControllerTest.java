@@ -1,8 +1,5 @@
 package com.bnppf.employee.api.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,13 +15,13 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.bnppf.employee.api.domain.DepartmentDTO;
+import com.bnppf.employee.api.BaseTest;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.service.EmployeeService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class EmployeeControllerTest {
+public class EmployeeControllerTest extends BaseTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -56,16 +53,4 @@ public class EmployeeControllerTest {
 				.getContentAsString(), false);
 	}
 
-	private EmployeeDTO getEmployeeDTO() {
-		EmployeeDTO employee = new EmployeeDTO();
-		employee.setId(1);
-		employee.setName("Employee1");
-		employee.setDateOfBirth("1990-07-07");
-		employee.setAddress("22 Fairylane Circle, Dearborn, Michigan");
-		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
-		DepartmentDTO department = new DepartmentDTO(1, "department1");
-		departments.add(department);
-		employee.setDepartments(departments);
-		return employee;
-	}
 }

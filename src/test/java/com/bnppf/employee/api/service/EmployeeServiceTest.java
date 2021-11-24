@@ -1,8 +1,5 @@
 package com.bnppf.employee.api.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -11,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bnppf.employee.api.BaseTest;
-import com.bnppf.employee.api.domain.DepartmentDTO;
 import com.bnppf.employee.api.domain.Employee;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.repository.EmployeeRepository;
@@ -62,19 +58,6 @@ public class EmployeeServiceTest extends BaseTest {
 		EmployeeDTO employee = service.create(employeeToBeCreated);
 
 		Assertions.assertNull(employee.getDateOfBirth());
-	}
-
-	private EmployeeDTO getEmployeeDTO() {
-		EmployeeDTO employeeToBeCreated = new EmployeeDTO();
-		employeeToBeCreated.setId(ID);
-		employeeToBeCreated.setName(EMPLOYEE_NAME);
-		employeeToBeCreated.setDateOfBirth("1990-07-07");
-		employeeToBeCreated.setAddress(ADDRESS);
-		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
-		DepartmentDTO department = new DepartmentDTO(ID, DEPARTMENT_NAME);
-		departments.add(department);
-		employeeToBeCreated.setDepartments(departments);
-		return employeeToBeCreated;
 	}
 
 }
