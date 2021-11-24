@@ -1,10 +1,13 @@
 package com.bnppf.employee.api.domain;
 
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -25,5 +28,8 @@ public class Employee {
 
 	@Column(name = "ADDRESS")
 	private String address;
+
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+	private List<Department> departments;
 
 }
