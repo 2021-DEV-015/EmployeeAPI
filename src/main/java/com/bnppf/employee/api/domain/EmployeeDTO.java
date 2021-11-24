@@ -2,6 +2,7 @@ package com.bnppf.employee.api.domain;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -17,6 +18,9 @@ public class EmployeeDTO {
 	private String name;
 	private String dateOfBirth;
 	private String address;
+
+	@Valid
+	@NotNull(message = "departments cannot be null")
 	private List<DepartmentDTO> departments;
 
 }
