@@ -1,7 +1,6 @@
 package com.bnppf.employee.api.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -69,7 +68,7 @@ public class EmployeeServiceTest extends BaseTest {
 		EmployeeDTO employeeToBeCreated = new EmployeeDTO();
 		employeeToBeCreated.setId(ID);
 		employeeToBeCreated.setName(EMPLOYEE_NAME);
-		employeeToBeCreated.setDateOfBirth(new Date());
+		employeeToBeCreated.setDateOfBirth("1990-07-07");
 		employeeToBeCreated.setAddress(ADDRESS);
 		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
 		DepartmentDTO department = new DepartmentDTO(ID, DEPARTMENT_NAME);

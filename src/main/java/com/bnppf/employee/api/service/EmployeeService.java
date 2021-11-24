@@ -29,7 +29,9 @@ public class EmployeeService {
 		transformedEmployee.setId(createdEmployee.getId());
 		transformedEmployee.setName(createdEmployee.getName());
 		transformedEmployee.setAddress(createdEmployee.getAddress());
-		transformedEmployee.setDateOfBirth(createdEmployee.getDateOfBirth());
+		transformedEmployee
+				.setDateOfBirth(createdEmployee.getDateOfBirth() != null ? createdEmployee
+						.getDateOfBirth().toString() : null);
 
 		List<DepartmentDTO> departmentDTO = createdEmployee.getDepartments()
 				.stream().map(p -> new DepartmentDTO(p.getId(), p.getName()))
@@ -43,8 +45,8 @@ public class EmployeeService {
 		employee.setId(employeeDTO.getId());
 		employee.setName(employeeDTO.getName());
 		if (null != employeeDTO.getDateOfBirth()) {
-			employee.setDateOfBirth(new java.sql.Date(employeeDTO
-					.getDateOfBirth().getTime()));
+			employee.setDateOfBirth(java.sql.Date.valueOf(employeeDTO
+					.getDateOfBirth()));
 		}
 		employee.setAddress(employeeDTO.getAddress());
 
