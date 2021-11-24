@@ -99,5 +99,13 @@ public class EmployeeServiceTest extends BaseTest {
 		Assertions.assertEquals(DEPARTMENT_NAME, employee.getDepartments().stream()
 				.findFirst().get().getName());
 	}
+	
+	@Test
+	public void shouldReturnEmptyEmployeeWhenEmployeeRecordNotFound()
+			throws Exception {
+		EmployeeDTO employee = service.fetchByEmployeeId(4);
+		
+		Assertions.assertNull(employee.getId());
+	}
 
 }
