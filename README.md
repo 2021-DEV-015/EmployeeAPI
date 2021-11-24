@@ -58,6 +58,28 @@ Inspired from Udacity
 2) Run `mvn clean test` to execute test cases.
 ```
 
+## Jacoco code coverage Report using JaCoCo Maven plugin
+
+### IDE
+```
+1) Setup application as per steps mentioned above. 
+2) Right click on the project in Project explorer window and
+   select Run as -> Run Configurations.
+3) Under configuration wizard from the left window right click on Maven Build and
+   select New Configuration.
+4) Select Base directory as your project root folder and under Goals mention `clean test`.
+5) The JaCoCo code coverage report will be generated at target/site/jacoco/*
+6) Open the target/site/jacoco/index.html file, review the code coverage report
+```
+
+### Command Prompt
+```
+1) Go to the directory where you have setup the application.
+2) Run the command `mvn clean test`.
+3) The JaCoCo code coverage report will be generated at target/site/jacoco/*
+4) Open the target/site/jacoco/index.html file, review the code coverage report
+```
+
 ## Steps to run the application in command prompt
 ```
 1) Setup application as per above instructions.
