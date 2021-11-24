@@ -2,7 +2,6 @@ package com.bnppf.employee.api.repository;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -20,24 +19,13 @@ public class EmployeeRepositoryTest {
 	private static final String ADDRESS = "22 Fairylane Circle, Dearborn, Michigan";
 	private static final String EMPLOYEE_NAME = "Employee1";
 	private static final int ID = 1;
+
 	@Autowired
 	private EmployeeRepository repository;
 
 	@Test
 	public void shouldSaveEmployeeWhenPassingEmployeeData() throws Exception {
-		Employee employee = new Employee();
-		employee.setId(ID);
-		employee.setName(EMPLOYEE_NAME);
-		Calendar calendar = Calendar.getInstance();
-		employee.setDateOfBirth(new Date(calendar.getTimeInMillis()));
-		employee.setAddress(ADDRESS);
-
-		List<Department> departments = new ArrayList<Department>();
-		Department department = new Department();
-		department.setId(ID);
-		department.setName(DEPARTMENT_NAME);
-		departments.add(department);
-		employee.setDepartments(departments);
+		Employee employee = getEmployee();
 
 		Employee savedEmployee = repository.save(employee);
 
@@ -51,5 +39,21 @@ public class EmployeeRepositoryTest {
 				.findFirst().get().getId());
 		Assertions.assertEquals(DEPARTMENT_NAME, savedEmployee.getDepartments()
 				.stream().findFirst().get().getName());
+	}
+
+	private Employee getEmployee() {
+		Employee employee = new Employee();
+		employee.setId(ID);
+		employee.setName(EMPLOYEE_NAME);
+		employee.setDateOfBirth(new Date(System.currentTimeMillis()));
+		employee.setAddress(ADDRESS);
+
+		List<Department> departments = new ArrayList<Department>();
+		Department department = new Department();
+		department.setId(ID);
+		department.setName(DEPARTMENT_NAME);
+		departments.add(department);
+		employee.setDepartments(departments);
+		return employee;
 	}
 }
