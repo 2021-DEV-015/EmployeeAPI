@@ -70,4 +70,32 @@ public class EmployeeServiceTest {
 		Assertions.assertEquals(DEPARTMENT_NAME, employee.getDepartments()
 				.stream().findFirst().get().getName());
 	}
+
+	@Test
+	public void shouldReturnCreatedEmployeeWhenEmployeeDateOfBirthIsNull()
+			throws Exception {
+		EmployeeDTO employeeToBeCreated = new EmployeeDTO();
+		employeeToBeCreated.setId(ID);
+		employeeToBeCreated.setName(EMPLOYEE_NAME);
+		employeeToBeCreated.setAddress(ADDRESS);
+		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
+		DepartmentDTO department = new DepartmentDTO(ID, DEPARTMENT_NAME);
+		departments.add(department);
+		employeeToBeCreated.setDepartments(departments);
+
+		Employee mockEmployee = new Employee();
+		mockEmployee.setId(ID);
+		mockEmployee.setName(EMPLOYEE_NAME);
+		mockEmployee.setAddress(ADDRESS);
+
+		List<Department> mockDepartments = new ArrayList<Department>();
+		mockDepartments.add(new Department(ID, DEPARTMENT_NAME));
+		mockEmployee.setDepartments(mockDepartments);
+		Mockito.when(repository.save(Mockito.any(Employee.class))).thenReturn(
+				mockEmployee);
+
+		EmployeeDTO employee = service.create(employeeToBeCreated);
+
+		Assertions.assertNull(employee.getDateOfBirth());
+	}
 }

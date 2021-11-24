@@ -42,8 +42,10 @@ public class EmployeeService {
 		Employee employee = new Employee();
 		employee.setId(employeeDTO.getId());
 		employee.setName(employeeDTO.getName());
-		employee.setDateOfBirth(new java.sql.Date(employeeDTO.getDateOfBirth()
-				.getTime()));
+		if (null != employeeDTO.getDateOfBirth()) {
+			employee.setDateOfBirth(new java.sql.Date(employeeDTO
+					.getDateOfBirth().getTime()));
+		}
 		employee.setAddress(employeeDTO.getAddress());
 
 		List<Department> departments = employeeDTO.getDepartments().stream()
