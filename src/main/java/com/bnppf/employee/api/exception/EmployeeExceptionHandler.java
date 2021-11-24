@@ -19,30 +19,19 @@ public class EmployeeExceptionHandler {
 			errorMessage.append(error.getDefaultMessage()).append(".");
 		});
 
-		ErrorResponse errorResponse = new ErrorResponse();
-		errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
-		errorResponse.setMessage(errorMessage.toString());
-		return new ResponseEntity<ErrorResponse>(errorResponse,
-				HttpStatus.BAD_REQUEST);
+		return getErrorResponse(errorMessage.toString(), HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(InvalidDateFormatException.class)
 	public ResponseEntity<ErrorResponse> handleInvalidDate(
 			InvalidDateFormatException exception) {
-		ErrorResponse errorResponse = new ErrorResponse();
-		errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
-		errorResponse.setMessage(exception.getMessage());
-		return new ResponseEntity<ErrorResponse>(errorResponse,
-				HttpStatus.BAD_REQUEST);
+		return getErrorResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(EmployeeAlreadyExistsException.class)
 	public ResponseEntity<ErrorResponse> handleEmployeeAlreadyExists(
 			EmployeeAlreadyExistsException exception) {
-		ErrorResponse errorResponse = new ErrorResponse();
-		errorResponse.setCode(HttpStatus.PRECONDITION_FAILED.value());
-		errorResponse.setMessage(exception.getMessage());
-		return new ResponseEntity<ErrorResponse>(errorResponse,
+		return getErrorResponse(exception.getMessage(),
 				HttpStatus.PRECONDITION_FAILED);
 	}
 
@@ -53,5 +42,13 @@ public class EmployeeExceptionHandler {
 		errorResponse.setCode(HttpStatus.NOT_FOUND.value());
 		errorResponse.setMessage(exception.getMessage());
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.OK);
+	}
+
+	private ResponseEntity<ErrorResponse> getErrorResponse(String errorMessage,
+			HttpStatus status) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setCode(status.value());
+		errorResponse.setMessage(errorMessage);
+		return new ResponseEntity<ErrorResponse>(errorResponse, status);
 	}
 }
