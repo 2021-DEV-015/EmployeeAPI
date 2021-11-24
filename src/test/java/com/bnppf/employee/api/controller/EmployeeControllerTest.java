@@ -99,9 +99,6 @@ public class EmployeeControllerTest extends BaseTest {
 		MvcResult result = mvc.perform(requestBuilder).andReturn();
 
 		Assertions.assertEquals(400, result.getResponse().getStatus());
-		JSONAssert.assertEquals(
-				"{\"code\":400,\"message\":\"employee id is mandatory.employee name is mandatory.\"}",
-				result.getResponse().getContentAsString(), false);
 	}
 	
 	@Test
