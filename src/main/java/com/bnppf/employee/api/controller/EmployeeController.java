@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bnppf.employee.api.domain.EmployeeDTO;
+import com.bnppf.employee.api.exception.InvalidDateFormatException;
 import com.bnppf.employee.api.service.EmployeeService;
 
 @RestController
@@ -20,7 +21,7 @@ public class EmployeeController {
 	private EmployeeService service;
 
 	@PostMapping(value = "/employee", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public EmployeeDTO createEmployee(@Valid @RequestBody EmployeeDTO employee) {
+	public EmployeeDTO createEmployee(@Valid @RequestBody EmployeeDTO employee) throws InvalidDateFormatException {
 		return service.create(employee);
 	}
 

@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bnppf.employee.api.BaseTest;
 import com.bnppf.employee.api.domain.Employee;
 import com.bnppf.employee.api.domain.EmployeeDTO;
+import com.bnppf.employee.api.exception.InvalidDateFormatException;
 import com.bnppf.employee.api.repository.EmployeeRepository;
 
 @SpringBootTest
@@ -58,6 +59,22 @@ public class EmployeeServiceTest extends BaseTest {
 		EmployeeDTO employee = service.create(employeeToBeCreated);
 
 		Assertions.assertNull(employee.getDateOfBirth());
+	}
+
+	@Test
+	public void shouldThrowInvalidDateFormatExceptionWhenEmployeeDateOfBirthIsText()
+			throws Exception {
+		EmployeeDTO employeeToBeCreated = getEmployeeDTO();
+		employeeToBeCreated.setDateOfBirth("text");
+
+		InvalidDateFormatException exception = Assertions.assertThrows(
+				InvalidDateFormatException.class, () -> {
+					service.create(employeeToBeCreated);
+				});
+
+		Assertions.assertEquals(
+				"dateOfBirth: date format is invalid. It must be yyyy-MM-dd",
+				exception.getMessage());
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.bnppf.employee.api.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +12,7 @@ import com.bnppf.employee.api.domain.Department;
 import com.bnppf.employee.api.domain.DepartmentDTO;
 import com.bnppf.employee.api.domain.Employee;
 import com.bnppf.employee.api.domain.EmployeeDTO;
+import com.bnppf.employee.api.exception.InvalidDateFormatException;
 import com.bnppf.employee.api.repository.EmployeeRepository;
 
 @Service
@@ -18,7 +21,7 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepository repository;
 
-	public EmployeeDTO create(EmployeeDTO employeeDTO) {
+	public EmployeeDTO create(EmployeeDTO employeeDTO) throws InvalidDateFormatException {
 		Employee employee = transformToEmployee(employeeDTO);
 		Employee createdEmployee = repository.save(employee);
 		return transformToDTO(createdEmployee);
@@ -40,13 +43,20 @@ public class EmployeeService {
 		return transformedEmployee;
 	}
 
-	private Employee transformToEmployee(EmployeeDTO employeeDTO) {
+	private Employee transformToEmployee(EmployeeDTO employeeDTO) throws InvalidDateFormatException {
 		Employee employee = new Employee();
 		employee.setId(employeeDTO.getId());
 		employee.setName(employeeDTO.getName());
 		if (null != employeeDTO.getDateOfBirth()) {
-			employee.setDateOfBirth(java.sql.Date.valueOf(employeeDTO
-					.getDateOfBirth()));
+			try {
+				SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+				dateFormatter.parse(employeeDTO.getDateOfBirth());
+				employee.setDateOfBirth(java.sql.Date.valueOf(employeeDTO
+						.getDateOfBirth()));
+			} catch (ParseException exception) {
+				throw new InvalidDateFormatException("dateOfBirth: date format is invalid. It must be yyyy-MM-dd");
+			}
+			
 		}
 		employee.setAddress(employeeDTO.getAddress());
 
