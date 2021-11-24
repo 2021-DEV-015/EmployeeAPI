@@ -19,6 +19,7 @@ import com.bnppf.employee.api.BaseTest;
 import com.bnppf.employee.api.domain.EmployeeAlreadyExistsException;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.exception.InvalidDateFormatException;
+import com.bnppf.employee.api.exception.RecordNotFoundException;
 import com.bnppf.employee.api.service.EmployeeService;
 
 @SpringBootTest
@@ -200,6 +201,21 @@ public class EmployeeControllerTest extends BaseTest {
 		MvcResult result = mvc.perform(requestBuilder).andReturn();
 
 		Assertions.assertEquals(412, result.getResponse().getStatus());
+	}
+	
+	@Test
+	public void shouldReturnNotFoundWhileFetchingEmployeeDataWhichIsNotFound()
+			throws Exception {
+		Mockito.doThrow(new RecordNotFoundException("Employee record not found")).when(service).fetchByEmployeeId(Mockito.anyInt());
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+				"/api/employee/1").accept(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+		Assertions.assertEquals(200, result.getResponse().getStatus());
+		JSONAssert.assertEquals("{\"code\":404,\"message\":\"Employee record not found\"}", result.getResponse()
+				.getContentAsString(), false);
 	}
 
 }

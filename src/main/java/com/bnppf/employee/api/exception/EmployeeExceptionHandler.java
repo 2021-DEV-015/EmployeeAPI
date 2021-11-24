@@ -45,4 +45,13 @@ public class EmployeeExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(errorResponse,
 				HttpStatus.PRECONDITION_FAILED);
 	}
+
+	@ExceptionHandler(RecordNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleRecordNotFound(
+			RecordNotFoundException exception) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setCode(HttpStatus.NOT_FOUND.value());
+		errorResponse.setMessage(exception.getMessage());
+		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.OK);
+	}
 }
