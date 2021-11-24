@@ -76,5 +76,13 @@ public class EmployeeServiceTest extends BaseTest {
 				"dateOfBirth: date format is invalid. It must be yyyy-MM-dd",
 				exception.getMessage());
 	}
+	
+	@Test
+	public void shouldReturnEmployeeWhenPassingEmployeeId()
+			throws Exception {
+		EmployeeDTO employee = service.fetchByEmployeeId(1);
+		
+		Assertions.assertNotNull(employee);
+	}
 
 }

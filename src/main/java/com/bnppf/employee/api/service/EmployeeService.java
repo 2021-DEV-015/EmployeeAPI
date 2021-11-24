@@ -71,4 +71,8 @@ public class EmployeeService {
 		}
 	}
 
+	public EmployeeDTO fetchByEmployeeId(Integer employeeId) {
+		return new EmployeeDTO();
+	}
+
 }
