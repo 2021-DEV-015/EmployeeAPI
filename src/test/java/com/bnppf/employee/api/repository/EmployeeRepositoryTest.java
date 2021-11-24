@@ -13,24 +13,26 @@ import com.bnppf.employee.api.domain.Employee;
 @DataJpaTest
 public class EmployeeRepositoryTest {
 
+	private static final String ADDRESS = "22 Fairylane Circle, Dearborn, Michigan";
+	private static final String EMPLOYEE_NAME = "Employee1";
+	private static final int EMPLOYEE_ID = 1;
 	@Autowired
 	private EmployeeRepository repository;
 
 	@Test
 	public void shouldSaveEmployeeWhenPassingEmployeeData() throws Exception {
 		Employee employee = new Employee();
-		employee.setId(1);
-		employee.setName("Employee1");
+		employee.setId(EMPLOYEE_ID);
+		employee.setName(EMPLOYEE_NAME);
 		Calendar calendar = Calendar.getInstance();
 		employee.setDateOfBirth(new Date(calendar.getTimeInMillis()));
-		employee.setAddress("22 Fairylane Circle, Dearborn, Michigan");
+		employee.setAddress(ADDRESS);
 
 		Employee savedEmployee = repository.save(employee);
 
 		Assertions.assertEquals(1, savedEmployee.getId());
-		Assertions.assertEquals("Employee1", savedEmployee.getName());
-		Assertions.assertEquals("22 Fairylane Circle, Dearborn, Michigan",
-				savedEmployee.getAddress());
+		Assertions.assertEquals(EMPLOYEE_NAME, savedEmployee.getName());
+		Assertions.assertEquals(ADDRESS, savedEmployee.getAddress());
 		Assertions.assertNotNull(savedEmployee.getDateOfBirth());
 	}
 }
