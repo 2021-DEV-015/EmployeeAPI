@@ -23,5 +23,11 @@ public class EmployeeServiceTest {
 		Assertions.assertEquals("22 Fairylane Circle, Dearborn, Michigan",
 				employee.getAddress());
 		Assertions.assertNotNull(employee.getDateOfBirth());
+		Assertions.assertEquals(employee.getDepartments().size(), employee
+				.getDepartments().size());
+		Assertions.assertEquals(1, employee.getDepartments().stream()
+				.findFirst().get().getId());
+		Assertions.assertEquals("department1", employee.getDepartments()
+				.stream().findFirst().get().getName());
 	}
 }

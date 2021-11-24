@@ -1,6 +1,7 @@
 package com.bnppf.employee.api.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -11,5 +12,6 @@ public class EmployeeDTO {
 	private String name;
 	private Date dateOfBirth;
 	private String address;
+	private List<DepartmentDTO> departments;
 
 }
