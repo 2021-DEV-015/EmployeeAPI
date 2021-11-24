@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.bnppf.employee.api.BaseTest;
+import com.bnppf.employee.api.domain.EmployeeAlreadyExistsException;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.exception.InvalidDateFormatException;
 import com.bnppf.employee.api.service.EmployeeService;
@@ -182,6 +183,23 @@ public class EmployeeControllerTest extends BaseTest {
 		Assertions.assertEquals(200, result.getResponse().getStatus());
 		JSONAssert.assertEquals(employeeResponseJson, result.getResponse()
 				.getContentAsString(), false);
+	}
+	
+	@Test
+	public void shouldReturnPreConditionFailedWhenCreateEmployeeWithEmployeeAlreadyExists()
+			throws Exception {
+		Mockito.doThrow(EmployeeAlreadyExistsException.class).when(service).create(Mockito.any(EmployeeDTO.class));
+
+		String employeeRequestJson = "{\"id\":1,\"name\":\"Employee1\",\"address\":\"22 Fairylane Circle, Dearborn, Michigan\",\"dateOfBirth\":\"1990-07-07\",\"departments\":[{\"id\":1,\"name\":\"department1\"}]}";
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+				.post("/api/employee").accept(MediaType.APPLICATION_JSON)
+				.content(employeeRequestJson)
+				.contentType(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+		Assertions.assertEquals(412, result.getResponse().getStatus());
 	}
 
 }

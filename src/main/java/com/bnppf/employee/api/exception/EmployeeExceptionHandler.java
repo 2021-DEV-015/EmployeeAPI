@@ -6,6 +6,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.bnppf.employee.api.domain.EmployeeAlreadyExistsException;
+
 @ControllerAdvice
 public class EmployeeExceptionHandler {
 
@@ -32,5 +34,15 @@ public class EmployeeExceptionHandler {
 		errorResponse.setMessage(exception.getMessage());
 		return new ResponseEntity<ErrorResponse>(errorResponse,
 				HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmployeeAlreadyExistsException.class)
+	public ResponseEntity<ErrorResponse> handleEmployeeAlreadyExists(
+			EmployeeAlreadyExistsException exception) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setCode(HttpStatus.PRECONDITION_FAILED.value());
+		errorResponse.setMessage(exception.getMessage());
+		return new ResponseEntity<ErrorResponse>(errorResponse,
+				HttpStatus.PRECONDITION_FAILED);
 	}
 }
