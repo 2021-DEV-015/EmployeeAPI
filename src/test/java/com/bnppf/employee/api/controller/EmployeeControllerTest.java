@@ -69,5 +69,22 @@ public class EmployeeControllerTest extends BaseTest {
 				"{\"code\":400,\"message\":\"employee id is mandatory.\"}",
 				result.getResponse().getContentAsString(), false);
 	}
+	
+	@Test
+	public void shouldReturnBadRequestWhenPassingEmployeeNameAsEmptyWhileCreatingEmployeeData()
+			throws Exception {
+		String employeeRequestJson = "{\"id\":1,\"name\":\"\",\"address\":\"22 Fairylane Circle, Dearborn, Michigan\",\"dateOfBirth\":\"07-07-1990\",\"departments\":[{\"id\":1,\"name\":\"department1\"}]}";
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+				.post("/api/employee").accept(MediaType.APPLICATION_JSON)
+				.content(employeeRequestJson)
+				.contentType(MediaType.APPLICATION_JSON);
+		MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+		Assertions.assertEquals(400, result.getResponse().getStatus());
+		JSONAssert.assertEquals(
+				"{\"code\":400,\"message\":\"employee name is mandatory.\"}",
+				result.getResponse().getContentAsString(), false);
+	}
 
 }
