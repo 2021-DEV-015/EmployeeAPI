@@ -38,15 +38,7 @@ public class EmployeeControllerTest {
 	@Test
 	public void shouldReturnEmployeeWhenCreateEmployeeAPIServiceIsCalled()
 			throws Exception {
-		EmployeeDTO employee = new EmployeeDTO();
-		employee.setId(1);
-		employee.setName("Employee1");
-		employee.setDateOfBirth("1990-07-07");
-		employee.setAddress("22 Fairylane Circle, Dearborn, Michigan");
-		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
-		DepartmentDTO department = new DepartmentDTO(1, "department1");
-		departments.add(department);
-		employee.setDepartments(departments);
+		EmployeeDTO employee = getEmployeeDTO();
 		Mockito.when(service.create(Mockito.any(EmployeeDTO.class)))
 				.thenReturn(employee);
 
@@ -62,5 +54,18 @@ public class EmployeeControllerTest {
 		Assertions.assertEquals(200, result.getResponse().getStatus());
 		JSONAssert.assertEquals(employeeRequestJson, result.getResponse()
 				.getContentAsString(), false);
+	}
+
+	private EmployeeDTO getEmployeeDTO() {
+		EmployeeDTO employee = new EmployeeDTO();
+		employee.setId(1);
+		employee.setName("Employee1");
+		employee.setDateOfBirth("1990-07-07");
+		employee.setAddress("22 Fairylane Circle, Dearborn, Michigan");
+		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
+		DepartmentDTO department = new DepartmentDTO(1, "department1");
+		departments.add(department);
+		employee.setDepartments(departments);
+		return employee;
 	}
 }
