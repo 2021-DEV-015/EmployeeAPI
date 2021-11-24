@@ -19,6 +19,26 @@ public class EmployeeService {
 	private EmployeeRepository repository;
 
 	public EmployeeDTO create(EmployeeDTO employeeDTO) {
+		Employee employee = transformToEmployee(employeeDTO);
+		Employee createdEmployee = repository.save(employee);
+		return transformToDTO(createdEmployee);
+	}
+
+	private EmployeeDTO transformToDTO(Employee createdEmployee) {
+		EmployeeDTO transformedEmployee = new EmployeeDTO();
+		transformedEmployee.setId(createdEmployee.getId());
+		transformedEmployee.setName(createdEmployee.getName());
+		transformedEmployee.setAddress(createdEmployee.getAddress());
+		transformedEmployee.setDateOfBirth(createdEmployee.getDateOfBirth());
+
+		List<DepartmentDTO> departmentDTO = createdEmployee.getDepartments()
+				.stream().map(p -> new DepartmentDTO(p.getId(), p.getName()))
+				.collect(Collectors.toList());
+		transformedEmployee.setDepartments(departmentDTO);
+		return transformedEmployee;
+	}
+
+	private Employee transformToEmployee(EmployeeDTO employeeDTO) {
 		Employee employee = new Employee();
 		employee.setId(employeeDTO.getId());
 		employee.setName(employeeDTO.getName());
@@ -30,21 +50,7 @@ public class EmployeeService {
 				.map(p -> new Department(p.getId(), p.getName()))
 				.collect(Collectors.toList());
 		employee.setDepartments(departments);
-
-		Employee createdEmployee = repository.save(employee);
-
-		EmployeeDTO transformedEmployee = new EmployeeDTO();
-		transformedEmployee.setId(createdEmployee.getId());
-		transformedEmployee.setName(createdEmployee.getName());
-		transformedEmployee.setAddress(createdEmployee.getAddress());
-		transformedEmployee.setDateOfBirth(createdEmployee.getDateOfBirth());
-
-		List<DepartmentDTO> departmentDTO = createdEmployee.getDepartments()
-				.stream().map(p -> new DepartmentDTO(p.getId(), p.getName()))
-				.collect(Collectors.toList());
-		transformedEmployee.setDepartments(departmentDTO);
-
-		return transformedEmployee;
+		return employee;
 	}
 
 }
