@@ -11,19 +11,14 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bnppf.employee.api.domain.Department;
+import com.bnppf.employee.api.BaseTest;
 import com.bnppf.employee.api.domain.DepartmentDTO;
 import com.bnppf.employee.api.domain.Employee;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.repository.EmployeeRepository;
 
 @SpringBootTest
-public class EmployeeServiceTest {
-
-	private static final String DEPARTMENT_NAME = "department1";
-	private static final String ADDRESS = "22 Fairylane Circle, Dearborn, Michigan";
-	private static final String EMPLOYEE_NAME = "Employee1";
-	private static final int ID = 1;
+public class EmployeeServiceTest extends BaseTest {
 
 	@Autowired
 	private EmployeeService service;
@@ -57,7 +52,7 @@ public class EmployeeServiceTest {
 	@Test
 	public void shouldReturnCreatedEmployeeWhenEmployeeDateOfBirthIsNull()
 			throws Exception {
-		EmployeeDTO employeeToBeCreated = new EmployeeDTO();
+		EmployeeDTO employeeToBeCreated = getEmployeeDTO();
 		employeeToBeCreated.setDateOfBirth(null);
 
 		Employee mockEmployee = getEmployee();
@@ -68,20 +63,6 @@ public class EmployeeServiceTest {
 		EmployeeDTO employee = service.create(employeeToBeCreated);
 
 		Assertions.assertNull(employee.getDateOfBirth());
-	}
-
-	private Employee getEmployee() {
-		Employee mockEmployee = new Employee();
-		mockEmployee.setId(ID);
-		mockEmployee.setName(EMPLOYEE_NAME);
-		mockEmployee.setAddress(ADDRESS);
-		mockEmployee.setDateOfBirth(new java.sql.Date(System
-				.currentTimeMillis()));
-
-		List<Department> mockDepartments = new ArrayList<Department>();
-		mockDepartments.add(new Department(ID, DEPARTMENT_NAME));
-		mockEmployee.setDepartments(mockDepartments);
-		return mockEmployee;
 	}
 
 	private EmployeeDTO getEmployeeDTO() {
