@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bnppf.employee.api.domain.EmployeeAlreadyExistsException;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.exception.InvalidDateFormatException;
+import com.bnppf.employee.api.exception.RecordNotFoundException;
 import com.bnppf.employee.api.service.EmployeeService;
 
 @RestController
@@ -30,7 +31,8 @@ public class EmployeeController {
 	}
 
 	@GetMapping(value = "/employee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public EmployeeDTO fetchEmployeeById(@PathVariable Integer id) {
+	public EmployeeDTO fetchEmployeeById(@PathVariable Integer id)
+			throws RecordNotFoundException {
 		return service.fetchByEmployeeId(id);
 	}
 

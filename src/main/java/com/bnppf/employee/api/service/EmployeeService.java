@@ -15,6 +15,7 @@ import com.bnppf.employee.api.domain.Employee;
 import com.bnppf.employee.api.domain.EmployeeAlreadyExistsException;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.exception.InvalidDateFormatException;
+import com.bnppf.employee.api.exception.RecordNotFoundException;
 import com.bnppf.employee.api.repository.EmployeeRepository;
 
 @Service
@@ -76,13 +77,12 @@ public class EmployeeService {
 		}
 	}
 	
-	public EmployeeDTO fetchByEmployeeId(Integer employeeId) {
-		EmployeeDTO employeeDTO = new EmployeeDTO();
+	public EmployeeDTO fetchByEmployeeId(Integer employeeId) throws RecordNotFoundException {
 		Optional<Employee> optional = repository.findById(employeeId);
-		if (optional.isPresent()) {
-			employeeDTO = transformToDTO(optional.get());
+		if (!optional.isPresent()) {
+			throw new RecordNotFoundException("Employee record not found");
 		}
-		return employeeDTO;
+		return transformToDTO(optional.get());
 	}
 
 }

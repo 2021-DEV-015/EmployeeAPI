@@ -14,6 +14,7 @@ import com.bnppf.employee.api.domain.Employee;
 import com.bnppf.employee.api.domain.EmployeeAlreadyExistsException;
 import com.bnppf.employee.api.domain.EmployeeDTO;
 import com.bnppf.employee.api.exception.InvalidDateFormatException;
+import com.bnppf.employee.api.exception.RecordNotFoundException;
 import com.bnppf.employee.api.repository.EmployeeRepository;
 
 @SpringBootTest
@@ -104,14 +105,6 @@ public class EmployeeServiceTest extends BaseTest {
 	}
 	
 	@Test
-	public void shouldReturnEmptyEmployeeWhenEmployeeRecordNotFound()
-			throws Exception {
-		EmployeeDTO employee = service.fetchByEmployeeId(4);
-		
-		Assertions.assertNull(employee.getId());
-	}
-	
-	@Test
 	public void shouldThrowEmployeeAlreadyExistsExceptionWhenCreatingEmployeeWithDuplicateId()
 			throws Exception {
 		EmployeeDTO employeeToBeCreated = getEmployeeDTO();
@@ -124,6 +117,18 @@ public class EmployeeServiceTest extends BaseTest {
 
 		Assertions.assertEquals(
 				"Employee record already exists for given employee id",
+				exception.getMessage());
+	}
+	
+	@Test
+	public void shouldThrowsRecordNotFoundExceptionWhenEmployeeDataNotFound()
+			throws Exception {
+		RecordNotFoundException exception = Assertions.assertThrows(
+				RecordNotFoundException.class, () -> {
+					service.fetchByEmployeeId(2);
+				});
+
+		Assertions.assertEquals("Employee record not found",
 				exception.getMessage());
 	}
 
