@@ -10,10 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "DEPARTMENT")
 @Data
+@NoArgsConstructor
 public class Department {
 
 	@Id
@@ -26,4 +28,9 @@ public class Department {
 	@ManyToOne
 	@JoinColumn(name = "EMPLOYEE_ID")
 	private Employee employee;
+
+	public Department(Integer id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 }
