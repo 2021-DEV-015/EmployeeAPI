@@ -23,4 +23,14 @@ public class EmployeeExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(errorResponse,
 				HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(InvalidDateFormatException.class)
+	public ResponseEntity<ErrorResponse> handleInvalidDate(
+			InvalidDateFormatException exception) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
+		errorResponse.setMessage(exception.getMessage());
+		return new ResponseEntity<ErrorResponse>(errorResponse,
+				HttpStatus.BAD_REQUEST);
+	}
 }

@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.bnppf.employee.api.BaseTest;
 import com.bnppf.employee.api.domain.EmployeeDTO;
+import com.bnppf.employee.api.exception.InvalidDateFormatException;
 import com.bnppf.employee.api.service.EmployeeService;
 
 @SpringBootTest
@@ -133,6 +134,22 @@ public class EmployeeControllerTest extends BaseTest {
 		JSONAssert.assertEquals(
 				"{\"code\":400,\"message\":\"departments cannot be null or empty.\"}",
 				result.getResponse().getContentAsString(), false);
+	}
+	
+	@Test
+	public void shouldReturnBadRequestWhenPassingDateOfBirthAsInvalidDateFormatWhileCreatingEmployeeData()
+			throws Exception {
+		Mockito.doThrow(InvalidDateFormatException.class).when(service).create(Mockito.any(EmployeeDTO.class));
+
+		String employeeRequestJson = "{\"id\":1,\"name\":\"Employee1\",\"address\":\"22 Fairylane Circle, Dearborn, Michigan\",\"dateOfBirth\":\"invalidDate\",\"departments\":[{\"id\":1,\"name\":\"department1\"}]}";
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+				.post("/api/employee").accept(MediaType.APPLICATION_JSON)
+				.content(employeeRequestJson)
+				.contentType(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+		Assertions.assertEquals(400, result.getResponse().getStatus());
 	}
 
 }
