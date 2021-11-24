@@ -1,5 +1,7 @@
 package com.bnppf.employee.api.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +20,7 @@ public class EmployeeController {
 	private EmployeeService service;
 
 	@PostMapping(value = "/employee", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employee) {
+	public EmployeeDTO createEmployee(@Valid @RequestBody EmployeeDTO employee) {
 		return service.create(employee);
 	}
 
