@@ -2,8 +2,11 @@ package com.bnppf.employee.api.service;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Service;
+
 import com.bnppf.employee.api.domain.EmployeeDTO;
 
+@Service
 public class EmployeeService {
 
 	public EmployeeDTO create() {
